@@ -46,7 +46,7 @@ Finally, I decided to use libc::exit() directly, whis always seem to work as exp
               nanomsg = "0.6.2"
               libc = "*"
 
-and imported the nanomsg crate into main.rs:
+    and imported the nanomsg crate into main.rs:
 
               extern crate nanomsg;'''
 
@@ -54,15 +54,15 @@ and imported the nanomsg crate into main.rs:
 
               git clone -b 1.0.0 --depth 1 https://github.com/nanomsg/nanomsg.git nanomsg-1.0.0
             
-  Created a build folder from which :
+    Created a build folder from which :
 
             cmake ..  (It found the Visual Studio 14 2015 toolset, which was OK)
             
-  Then built nanomsg.lib:
+    Then built nanomsg.lib:
 
             cmake --build .
 
-  So after abt 3 minutes I got my debug version of nanomsg.lib:
+    So after abt 3 minutes I got my debug version of nanomsg.lib:
        
             Done Building Project "F:\Projects\Komodo Blockchain\Rust Test\nanomsg_test\nanomsg-1.0.0\build\ALL_BUILD.vcxproj" (default targets).
 
@@ -72,19 +72,19 @@ and imported the nanomsg crate into main.rs:
 
             Time Elapsed 00:03:33.16'''
 
-  then, installed it:
+    then, installed it:
        
             cmake --build . --target install
 
-  this command caused
+    this command caused
 
                F:\Projects\Komodo Blockchain\Rust Test\nanomsg_test\nanomsg-1.0.0\build\Debug\nanomsg.lib
                
-  to be copied to
+    to be copied to
   
                C:\Program Files (x86)\nanomsg\lib
 
-  Also the include and bin directories have been set up properly:
+    Also the include and bin directories have been set up properly:
 
               -- Install configuration: "Debug"
               -- Installing: C:/Program Files (x86)/nanomsg/include/nanomsg/nn.h
@@ -111,7 +111,7 @@ and imported the nanomsg crate into main.rs:
           unsafe { libc::exit(1); };
       }
    
-gives the following output on Windows:
+  gives the following output on Windows:
 
       cargo run
       Finished dev [unoptimized + debuginfo] target(s) in 0.0 secs
@@ -119,7 +119,7 @@ gives the following output on Windows:
       error: process didn't exit successfully: `target\debug\nanomsg_test.exe` (exit code: 1)
 
 
-
+  Changing the exit code to 0:
 
 
       fn main() {
@@ -127,7 +127,7 @@ gives the following output on Windows:
       }
    
 
-gives:
+  gives:
 
       cargo run
       Compiling nanomsg_test v0.1.0 (file:///F:/Projects/Komodo%20Blockchain/Rust%20Test/nanomsg_test)
