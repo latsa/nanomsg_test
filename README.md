@@ -38,33 +38,33 @@ Finally, I decided to use libc::exit() directly, whis always seem to work as exp
 * 4.0 OK, setsockopt needs to be set.
 * 4.1 At this point I decided to create the project locally:
    
-            cargo new nanomsg_test --bin
+              cargo new nanomsg_test --bin
 
 * 4.2 I added anticipated dependencies to cargo.toml:
 
-            [dependencies]
-            nanomsg = "0.6.2"
-            libc = "*"
+              [dependencies]
+              nanomsg = "0.6.2"
+              libc = "*"
 
 and imported the nanomsg crate into main.rs:
 
-            extern crate nanomsg;'''
+              extern crate nanomsg;'''
 
 * 4.3 Downloaded and built depedencies
 
-            git clone -b 1.0.0 --depth 1 https://github.com/nanomsg/nanomsg.git nanomsg-1.0.0
+              git clone -b 1.0.0 --depth 1 https://github.com/nanomsg/nanomsg.git nanomsg-1.0.0
             
-  *Created a build folder from which :
+  Created a build folder from which :
 
             cmake ..  (It found the Visual Studio 14 2015 toolset, which was OK)
             
-  *Then built nanomsg.lib:
+  Then built nanomsg.lib:
 
             cmake --build .
 
-  *So after abt 3 minutes I got my debug version of nanomsg.lib:
+  So after abt 3 minutes I got my debug version of nanomsg.lib:
        
-        Done Building Project "F:\Projects\Komodo Blockchain\Rust Test\nanomsg_test\nanomsg-1.0.0\build\ALL_BUILD.vcxproj" (default targets).
+            Done Building Project "F:\Projects\Komodo Blockchain\Rust Test\nanomsg_test\nanomsg-1.0.0\build\ALL_BUILD.vcxproj" (default targets).
 
             Build succeeded.
                0 Warning(s)
@@ -111,7 +111,7 @@ and imported the nanomsg crate into main.rs:
           unsafe { libc::exit(1); };
       }
    
-   gives the following output on Windows:
+gives the following output on Windows:
 
       cargo run
       Finished dev [unoptimized + debuginfo] target(s) in 0.0 secs
@@ -127,7 +127,7 @@ and imported the nanomsg crate into main.rs:
       }
    
 
-   gives:
+gives:
 
       cargo run
       Compiling nanomsg_test v0.1.0 (file:///F:/Projects/Komodo%20Blockchain/Rust%20Test/nanomsg_test)
