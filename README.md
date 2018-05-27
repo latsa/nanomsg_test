@@ -35,7 +35,6 @@ Finally, I decided to use libc::exit() directly, whis always seem to work as exp
 
 ## 4. "Pull" waits for message for 10 seconds, if it doesn't receive message it exits with non-zero code.
 
-* 4.0 OK, setsockopt needs to be set.
 * 4.1 At this point I decided to create the project locally:
 
               cargo new nanomsg_test --bin
@@ -148,7 +147,7 @@ Finally, I decided to use libc::exit() directly, whis always seem to work as exp
        >git push origin master
 
 * 4.7 Initially puller() was waiting forever. I added a 10 second inactivity timeout
-      using setsockopt. ( Another alternative would have been to implement a 'monitor'
+      using poll. ( Another alternative would have been to implement a 'monitor'
       in a background thread and use a on second interval timer to increment a counter.
       Whenever a message arrives, the counter would be reset. Whenever a timer tick
       arrives, the counter value is checked whether is greater than 10, in which case
@@ -156,5 +155,3 @@ Finally, I decided to use libc::exit() directly, whis always seem to work as exp
       network connection and also to serialize access to the counter (e.g. with a mutex)
       as it is accessed from two different threads.)
 
-         int rcvto = 10000; //[ms]
-         nn_setsockopt(input, NN_SOL_SOCKET, NN_RCVTIMEO, &rcvto, sizeof(rcvto));
