@@ -2,11 +2,61 @@ extern crate libc;
 extern crate nanomsg;
 
 use std::env;
+use std::io::{Read, Write};
+use nanomsg::{Socket, Protocol, PollFd, PollRequest, PollInOut};
 
-fn puller() {
+fn puller(url: &str) {
+   let mut input = Socket::new(Protocol::Pull).unwrap();
+   input.bind(url).unwrap();
+   println!("Puller listening on '{}'.", url);
+
+   let mut pollfd_vec: Vec<PollFd> = vec![input.new_pollfd(PollInOut::In)];
+   let mut poll_req = PollRequest::new(&mut pollfd_vec[..]);
+   let timeout = 10000;
+   match Socket::poll(&mut poll_req, timeout) {
+      Ok(_) => {
+         let mut msg = String::new();
+         match input.read_to_string(&mut msg) {
+            Ok(_) => {
+               println!("Puller got a message: '{}'.", &*msg);
+               msg.clear();
+            }, Err(err) => {
+               println!("Puller failed '{}'.", err);
+               exit(err.kind() as i32);
+            }
+         }
+      }, Err(err) => {
+         println!("Puller failed '{}'.", err);
+         exit(err as i32);
+      }
+   }
+
 }
 
-fn pusher() {
+
+fn pusher(url: &str) {
+   let mut output = Socket::new(Protocol::Push).unwrap();
+   let mut endpoint = output.connect(url).unwrap();
+
+
+   let msg = format!("Hello");
+   let msg_bytes = msg.as_bytes();
+   match output.write_all(msg_bytes) {
+      Ok(_) => {
+             println!("Simon sez {}.", &*msg);
+      }, Err(err) => {
+            println!("Pusher failed '{}'.", err);
+            exit(err.kind() as i32);
+      }
+   }
+
+   match endpoint.shutdown() {
+      Ok(_) => println!("Bye"),
+      Err(err) =>  {
+         println!("{}", err);
+         exit(err as i32);
+      }
+   }
 }
 
 fn exit(code:i32) {
@@ -29,10 +79,11 @@ fn main() {
     }
 
    let mode = args[1].as_ref();
+   let url = "ipc:///tmp/pipeline_test.ipc".as_ref();
 
    match mode {
-        "push" => pusher(),
-        "pull" => puller(),
+        "push" => pusher(url),
+        "pull" => puller(url),
         _ => usage(program_name)
     }
 
