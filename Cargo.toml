@@ -5,5 +5,4 @@ authors = ["latsa <laca@gmx.us>"]
 
 [dependencies]
 nanomsg = "0.6.2"
-nanomsg-sys = "*"
 libc = "0.2.*"

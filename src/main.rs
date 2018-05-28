@@ -51,7 +51,7 @@ fn pusher(url: &str) {
    }
 
    match endpoint.shutdown() {
-      Ok(_) => println!("Bye"),
+      Ok(_) => println!("Simon sez Bye"),
       Err(err) =>  {
          println!("{}", err);
          exit(err as i32);
@@ -71,21 +71,28 @@ fn usage(program_name : &String) {
 }
 
 fn main() {
+   let url = "ipc:///tmp/pipeline_test.ipc".as_ref();
    let args: Vec<String> = env::args().collect();
 
    let program_name = &args[0];
-   if args.len() != 2 {
-        usage(program_name);
-    }
+   if args.len() == 1 {
+     let mode: &str = &env::var("mode").unwrap();
 
-   let mode = args[1].as_ref();
-   let url = "ipc:///tmp/pipeline_test.ipc".as_ref();
+     match mode {
+       "push" => pusher(url),
+       "pull" => puller(url),
+       _ => usage(program_name)
+     }
+   } else if args.len() == 2 {
+      let mode = args[1].as_ref();
 
-   match mode {
+      match mode {
         "push" => pusher(url),
         "pull" => puller(url),
         _ => usage(program_name)
-    }
-
+      }
+   } else {
+      usage(program_name);
+   }
    exit(0);
 }
