@@ -1,0 +1,5 @@
+#! /bin/bash
+export mode="pull"
+./target/debug/nanomsg_test
+#./target/debug/nanomsg_test pull
+

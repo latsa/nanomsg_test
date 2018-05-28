@@ -1,0 +1,16 @@
+version: '2'
+services:
+   puller:
+      build: 
+         context: .
+         args:
+            mode: pull
+      volumes: 
+         - /tmp:/tmp
+   pusher:
+      build:
+         context: .
+         args:
+            mode: push
+      volumes: 
+         - /tmp:/tmp
