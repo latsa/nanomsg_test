@@ -1,16 +1,15 @@
 version: '2'
 services:
    puller:
-      build: 
-         context: .
-         args:
-            mode: pull
+      environment:
+        - mode=pull
+      build: .
+      image: nanomsg_tester
       volumes: 
          - /tmp:/tmp
    pusher:
-      build:
-         context: .
-         args:
-            mode: push
+      environment:
+        - mode=push
+      image: nanomsg_tester
       volumes: 
          - /tmp:/tmp

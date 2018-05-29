@@ -1,16 +1,19 @@
-There is a single binary which checks the value of argv[1] if it exists, or
-the environment variable "MODE" if it exists. The value of "pull" will put the
-binary in pull mode, any the value of "push" will put the binary in push mode. Any
-other value will cause the binary to display the usage message and exit with a
-non-zero return code. ( The program will panic! if called without arguments and the
-environment variable "MODE" is not set either, because I overlooked to handle this
-case, but still fits the spec thanks to the marvel that Rust delivers. :) )
+
+There is a single binary, named nanomsg_test,  which checks the value of 
+argv[1] if it exists, or the environment variable "mode" if it exists. The 
+value "pull" will put the binary in pull mode, any the value "push" will 
+put the binary in push mode. Any other value will cause the binary to 
+display the usage message and exit with a non-zero return code. 
+
+You can try it by calling it directly, using docker. or using docker-compose.
 
 1. Manual build and test procedure:
 
-        cargo build
-        ./nanomsg_pull &
-        ./nanomsg_push
+        * Install nanomsg.rs from https://github.com/nanomsg.rs . Download it
+          into deps/nanomsg.rs and run *make deps*. 
+        * build /target/debug/nanomsg_test:  *cargo build*
+        * run the listener detached: *./nanomsg_pull &*
+        * run the messsage sender: ./nanomsg_push
 
 
 2. Using Docker:
@@ -21,6 +24,7 @@ case, but still fits the spec thanks to the marvel that Rust delivers. :) )
 
 
 3. Using Docker-compose:
+
         docker-compose up
 
 

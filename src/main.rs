@@ -70,12 +70,24 @@ fn usage(program_name : &String) {
    exit(1);
 }
 
+fn env_is_set(envvar:&str) -> bool {
+    match env::var(envvar) {
+        Ok(_) => true,
+        _ => false
+    }
+}
+
 fn main() {
-   let url = "ipc:///tmp/pipeline_test.ipc".as_ref();
+   let url = "ipc:///tmp/pipeline1.ipc".as_ref();
    let args: Vec<String> = env::args().collect();
 
    let program_name = &args[0];
    if args.len() == 1 {
+
+     if !env_is_set("mode") {
+         usage(program_name);
+     }
+
      let mode: &str = &env::var("mode").unwrap();
 
      match mode {

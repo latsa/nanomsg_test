@@ -167,4 +167,18 @@ Finally, I decided to use libc::exit() directly, whis always seem to work as exp
 
 As expected, pull times out, unless a message arrives within 10 seconds.
 
+* 5.5 Created docker-compose.yml . The command "docker-compose up" gives
+the following expected output:
+
+    laszlos@MS-7821:~/Projects/Learning Rust/nanomsg_test$ docker-compose up
+    Creating network "nanomsgtest_default" with the default driver
+    Creating nanomsgtest_puller_1
+    Creating nanomsgtest_pusher_1
+    Attaching to nanomsgtest_puller_1, nanomsgtest_pusher_1
+    puller_1 | Puller listening on 'ipc:///tmp/pipeline1.ipc'.
+    puller_1 | Puller got a message: 'Hello'.
+    pusher_1 | Simon sez Hello.
+    pusher_1 | Simon sez Bye
+    nanomsgtest_puller_1 exited with code 0
+    nanomsgtest_pusher_1 exited with code 0
 
